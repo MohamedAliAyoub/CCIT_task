@@ -11,10 +11,16 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
+                        <div class="form-group row ">
+                            <div class="col-md-6 offset-md-3">
+                                <a href ="http://localhost/ccit_task/ccit/public/login/facebook" class= "btn btn-danger btn-block" style="text-align:center ; inline:block" > LOGIN WITH FACEBOOK </a><br>
+                                <a href ="{{route('google.login')}}" class= "btn btn-primary btn-block"  style="text-align:center ;inline:block"> LOGIN WITH GOOGLE </a><br>
+                                <a href ="{{route('github.login')}}" class= "btn btn-dark btn-block"  style="text-align:center ; inline:block"> LOGIN WITH GITHUB </a><br>
+                            </div>
+                        </div>
+                        <p style="text-align:center">OR</p>
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-3">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
@@ -25,10 +31,9 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                        <div class="form-group row">
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 offset-md-3">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
@@ -39,8 +44,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -52,7 +57,7 @@
                         </div>
 
                         <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
+                            <div class="col-md-8 offset-md-3">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
