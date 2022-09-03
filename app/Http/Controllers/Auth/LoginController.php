@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
+
 
 class LoginController extends Controller
 {
@@ -30,15 +32,27 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo(){
+        if( Auth()->user()->role == 1){
+            return route('admin.dashboard');
+        }
+        elseif( Auth()->user() == 2){
+            return route('user.dashboard');
+        }
+    }
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+
+    protected $name;
+
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->name = $this->findName();
     }
 
      /**
@@ -46,6 +60,55 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function findName()
+    {
+        $login = request()->input('login');
+
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+        request()->merge([$fieldType => $login]);
+
+        return $fieldType;
+    }
+
+    public function name()
+    {
+        return $this->name;
+    }
+
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+            'login'    => 'required',
+            'password' => 'required',
+        ]);
+
+        $login_type = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL )
+            ? 'email'
+            : 'name';
+
+        $request->merge([
+            $login_type => $request->input('login')
+        ]);
+
+        if (Auth::attempt($request->only($login_type, 'password'))) {
+            if( auth()->user()->type == 0 ){
+                return redirect()->route('admin.dashboard');
+            }
+            elseif( auth()->user()->type ==1 ) {
+                return redirect()->route('user.dashboard');
+            }
+        }
+
+        return redirect()->back()
+            ->withInput()
+            ->withErrors([
+                'login' => 'These credentials do not match our records.',
+            ]);
+    }
+
+
 
 
     /**

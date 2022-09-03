@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable , Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_active',
-        'type'
+        'type',
     ];
 
     /**
@@ -43,4 +46,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //    return new user in that day
+    public function newUsers()
+    {
+        return $this->whereDate('created_at' ,  Carbon::parse('today')->format('Y-m-d') );
+    }
+
+    // get users only
+    public function customer()
+    {
+        return $this->where('type', 1);
+    }
+
 }
