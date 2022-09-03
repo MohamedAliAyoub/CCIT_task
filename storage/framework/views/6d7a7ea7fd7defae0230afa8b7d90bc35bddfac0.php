@@ -58,9 +58,11 @@
                             </div>
                         <?php endif; ?>
                         <div class="form-group" id="product-group">
-                            <?php echo Form::label('plane', 'Select Plan:'); ?>
+                            <?php echo Form::label('planId', 'Select Plan:'); ?>
 
-                            <?php echo Form::select('plane', ['price_***' => 'Game ($50)','price_***' => 'Movie ($100)'], null, [
+
+                            <?php echo Form::select('plan_id', $plans, null, [
+                                'id'                       => 'planId',
                                 'class'                       => 'form-control',
                                 'required'                    => 'required',
                                 'data-parsley-class-handler'  => '#product-group'

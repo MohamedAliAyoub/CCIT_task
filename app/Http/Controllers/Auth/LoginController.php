@@ -23,23 +23,10 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-    protected function redirectTo(){
-        if( Auth()->user()->role == 1){
-            return route('admin.dashboard');
-        }
-        elseif( Auth()->user() == 2){
-            return route('user.dashboard');
-        }
-    }
 
     /**
      * Create a new controller instance.
@@ -72,6 +59,21 @@ class LoginController extends Controller
         return $fieldType;
     }
 
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected function redirectTo(){
+        if( Auth()->user()->role == 1){
+            return route('admin.dashboard');
+        }
+        elseif( Auth()->user() == 2){
+            return route('user.dashboard');
+        }
+    }
+
+
     public function name()
     {
         return $this->name;
@@ -97,7 +99,14 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             elseif( auth()->user()->type ==1 ) {
-                return redirect()->route('user.dashboard');
+                if(auth()->user()->is_active ==1)
+                    return redirect()->route('user.dashboard');
+                else
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors([
+                            'login' => 'email is in active.',
+                        ]);
             }
         }
 

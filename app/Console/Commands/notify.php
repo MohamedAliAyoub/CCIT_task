@@ -31,7 +31,9 @@ class notify extends Command
      */
     public function handle()
     {
-        $new_users = User::whereDate('created_at' ,  Carbon::parse('today')->format('Y-m-d'))->where([['type' , 1], ['is_active', 1 ]])->count();
+        $new_users = User::query()->whereDate('created_at' ,  now())
+            ->where([['type' , 1], ['is_active', 1 ]])->count();
+        dd($new_users);
         Mail::to('mohamedali163163@gmail.com')->send(new NewUsers($new_users));
     }
 }

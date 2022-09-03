@@ -22,12 +22,20 @@ class UserSeeder extends Seeder
             "password" => Hash::make("123456"),
             "is_active" => 1
         ]);
-  
+
         User::create([
             "name" => "Two",
             "email" => "two@gmail.com",
             "password" => Hash::make("123456"),
             "is_active" => 0
+        ]);
+
+        User::create([
+            "name" => "admin",
+            "email" => "admin@gmail.com",
+            "password" => Hash::make("123456"),
+            "is_active" => 1,
+            "type" => '0'
         ]);
     }
 }

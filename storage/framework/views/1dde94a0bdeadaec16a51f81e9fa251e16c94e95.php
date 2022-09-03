@@ -80,14 +80,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </p>
                 </a>
               </li>
-               <li class="nav-item">
-                <a href="<?php echo e(route('user.profile')); ?>" class="nav-link <?php echo e((request()->is('user/profile*')) ? 'active' : ''); ?>">
-                  <i class="nav-icon fas fa-user"></i>
-                  <p>
-                   Profile
-                  </p>
-                </a>
-              </li>
           <li class="nav-item">
             <a href="<?php echo e(route('user.subscription.create')); ?>" class="nav-link <?php echo e((request()->is('subscription/create*')) ? 'active' : ''); ?>">
               <i class="nav-icon fas fa-cog"></i>

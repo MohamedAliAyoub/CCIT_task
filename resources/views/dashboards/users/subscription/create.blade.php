@@ -57,8 +57,10 @@
                             </div>
                         @endif
                         <div class="form-group" id="product-group">
-                            {!! Form::label('plane', 'Select Plan:') !!}
-                            {!! Form::select('plane', ['price_***' => 'Game ($50)','price_***' => 'Movie ($100)'], null, [
+                            {!! Form::label('planId', 'Select Plan:') !!}
+
+                            {!! Form::select('plan_id', $plans, null, [
+                                'id'                       => 'planId',
                                 'class'                       => 'form-control',
                                 'required'                    => 'required',
                                 'data-parsley-class-handler'  => '#product-group'
